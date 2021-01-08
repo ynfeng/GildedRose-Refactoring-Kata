@@ -1,21 +1,59 @@
 package com.gildedrose;
 
-public class Item {
+public abstract class Item {
 
-    public String name;
+    private final String name;
 
-    public int sellIn;
+    private int sellIn;
 
-    public int quality;
+    private int quality;
 
-    public Item(String name, int sellIn, int quality) {
+    protected Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
     }
 
-   @Override
-   public String toString() {
-        return this.name + ", " + this.sellIn + ", " + this.quality;
+    @Override
+    public String toString() {
+        return name + ", " + sellIn + ", " + quality;
+    }
+
+    abstract void oneDayPassed();
+
+    protected boolean isExpired() {
+        return sellIn < 0;
+    }
+
+    protected void decreaseSellIn() {
+        sellIn -= 1;
+    }
+
+    protected void decreaseQuality() {
+        if (quality > 0) {
+            quality -= 1;
+        }
+    }
+
+    protected void increaseQuality() {
+        if (quality < 50) {
+            quality += 1;
+        }
+    }
+
+    protected void makeItWorthless() {
+        quality = 0;
+    }
+
+    protected boolean willExpireIn(int days) {
+        return sellIn < days;
+    }
+
+    public int sellIn() {
+        return sellIn;
+    }
+
+    public int quality() {
+        return quality;
     }
 }
